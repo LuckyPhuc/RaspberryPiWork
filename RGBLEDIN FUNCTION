@@ -1,0 +1,116 @@
+from gpiozero import LED #easy LED use on pinouts
+from gpiozero import RGBLED #easy RGB color control
+from gpiozero import Servo #servo signaling
+import time #timeing controls
+import threading #parrallel works
+import warnings # warning controls
+warnings.filterwarnings('ignore')
+
+#C=Premade colors
+simple={"Neon Purple":[180,0,255],
+        "Sunset Orange":[131,140,61],
+        "Electric Lime":[180,255,0],
+        "Turqoise":[64,224,208],
+        "Ice Blue":[150,210,255],
+        "Off":[0,0,0]}
+#threading.Thread(target=functionname).start()
+
+# 1 color LED
+led=LED("BOARD29")
+led2=LED("BOARD33")
+led1=LED("BOARD40")
+led3=LED("BOARD26")
+
+#print(dir(led1))
+
+# Multi(RGB) color LED
+reds1=("BOARD11")
+Blues1=("BOARD7")
+Greens1=("BOARD5")
+reds2=("BOARD12")
+Blues2=("BOARD10")
+Greens2=("BOARD13")
+
+#servo Settings (global defining)
+servopin="BOARD32"
+servo=Servo(servopin)
+# Setting RGB
+rgb1= RGBLED(red=reds1,green=Greens1,blue=Blues1) #ground=9
+rgb2= RGBLED(red=reds2,green=Greens2,blue=Blues2)
+
+
+def empty():
+    rgb1.color=(0,0,0)
+    rgb2.color=(0,0,0)
+
+
+def RGB_Setter(rgbled,r,g,b):
+    rgbled.color=(r/255,g/255,b/255)
+    time.sleep(1)
+    
+
+def rgb(l,r):
+    RGB_Setter(rgb1,255,0,0)
+    RGB_Setter(rgb1,255,0,0)
+    RGB_Setter(rgb1,0,255,0)
+    RGB_Setter(rgb1,0,255,0)
+    RGB_Setter(rgb1,0,0,255)
+    RGB_Setter(rgb1,0,0,255)
+    RGB_Setter(rgb1,0,0,0)
+    RGB_Setter(rgb1,0,0,0)
+    
+
+def Prepackaged_RGB(which_le,custum):
+    if which_le=="both":
+        RGB_Setter(rgb1,simple[custum][0],simple[custum][1],simple[custum][2])
+        RGB_Setter(rgb2,simple[custum][0],simple[custum][1],simple[custum][2])
+    elif which_le=="left":
+        RGB_Setter(rgb1,simple[custum][0],simple[custum][1],simple[custum][2])
+    elif which_le=="right":
+        RGB_Setter(rgb2,simple[custum][0],simple[custum][1],simple[custum][2])
+    
+
+def custom_RGB(which_le,r,g,b):
+    if which_le=="both":
+        RGB_Setter(rgb1,r,g,b)
+        RGB_Setter(rgb2,r,g,b)
+    elif which_le=="left":
+        RGB_Setter(rgb1,r,g,b)
+    elif which_le=="right":
+        RGB_Setter(rgb2,r,g,b)
+
+
+def custom_RGB_led():
+    which_led= (input("Which LED?\n" "Left\n" "Right\n" "Both\n")).lower()
+    custume= (input("Custom or Prepackaged colors?\n")).lower()
+    time.sleep(1)
+    if which_led =="left" or  which_led=="right" or  which_led=="both":
+        if custume=="custom":
+            custumeR=int(input("Pick a color for R [Integers Only]. "))
+            custumeG=int(input("Pick a color for G [Integers Only]. "))
+            custumeB=int(input("Pick a color for B [Integers Only]. "))
+            custom_RGB(which_led,custumeR,custumeG,custumeB)
+        elif custume=="prepackaged":
+            print((simple.keys()),"\n")
+            custume=(input("Pick a color [Case Sensitive]. "))
+            Prepackaged_RGB(which_led,custume)
+        else:
+            print("oh no")
+            print(custume)
+            print("Try again")
+            custom_RGB_led()
+        
+    else:
+        print (which_led)
+        print("Try Again")
+        custom_RGB_led()
+
+tip=True
+while tip==True:
+    custom_RGB_led()
+    time.sleep(15)
+    if (input("Would you like to change something? ")).lower()=="yes":
+        tip=True
+    else:
+        tip=False
+
