@@ -70,7 +70,7 @@ def Prepackaged_RGB(which_le,custum):
         RGB_Setter(rgb1,Prepackaged_Set[custum][0],Prepackaged_Set[custum][1],Prepackaged_Set[custum][2])
     elif which_le=="right" or which_le=='2':
         RGB_Setter(rgb2,Prepackaged_Set[custum][0],Prepackaged_Set[custum][1],Prepackaged_Set[custum][2])
-    print(custom)
+    print(custum)
         
 #setting RGBLED to new Color
 def Custom_RGB(which_le,r,g,b):
