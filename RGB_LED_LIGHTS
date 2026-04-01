@@ -1,176 +1,272 @@
-from gpiozero import LED #easy LED use on pinouts
-from gpiozero import RGBLED #easy RGB color control
-import time #timeing controls
+from gpiozero import LED  # easy LED use on pinouts
+from gpiozero import RGBLED  # easy RGB color control
+import time  # timeing controls
 
-#C=Premade colors dictionary
-Prepackaged_Set={"neon purple":[180,0,255],
-        "sunset orange":[131,140,61],
-        "electric lime":[180,255,0],
-        "turqoise":[64,224,208],
-        "ice blue":[150,210,255],
-        "lavender glow":[97,124,234],
-        "off":[0,0,0]}
+# C=Premade colors dictionary
+Prepackaged_Set = {
+    "neon purple": [180, 0, 255],
+    "sunset orange": [131, 140, 61],
+    "electric lime": [180, 255, 0],
+    "turqoise": [64, 224, 208],
+    "ice blue": [150, 210, 255],
+    "lavender glow": [97, 124, 234],
+    "off": [0, 0, 0],
+}
 
-Packaged_Names=["Neon Purple","Sunset Orange","Electric Lime","Turqoise","Ice Blue","Lavender Glow","Off"]
+
+Packaged_Names = [
+    "Neon Purple",
+    "Sunset Orange",
+    "Electric Lime",
+    "Turqoise",
+    "Ice Blue",
+    "Lavender Glow",
+    "Off",
+]
+
+
+# gives packaged sets with numbers
+def Annoying_Listing(chosen):
+    orange = []
+    for i, name in enumerate(chosen):
+        orange.append(str(i + 1) + ". " + name)
+    return orange
+
+
+# threading.Thread(target=functionname).start()
+
+Yes = ("yes", "y")
+No = ("no", "n")
 
 # Multi(RGB) color LED
-reds1=("BOARD11")
-Blues1=("BOARD7")
-Greens1=("BOARD5")
-reds2=("BOARD12")
-Blues2=("BOARD10")
-Greens2=("BOARD13")
+reds1 = "BOARD11"
+Blues1 = "BOARD7"
+Greens1 = "BOARD5"
+reds2 = "BOARD12"
+Blues2 = "BOARD10"
+Greens2 = "BOARD13"
 
 # Setting RGB
-rgb1= RGBLED(red=reds1,green=Greens1,blue=Blues1) #ground=9
-rgb2= RGBLED(red=reds2,green=Greens2,blue=Blues2)
-#print(dir(RGBLED))
-#Resets RGB LED
-def Wipe_RGB():
-    print('Turning off RGB')
-    rgb1.color=(0,0,0)
-    rgb2.color=(0,0,0)
-    print('RGB off')
-    
-#Set Choice RGB LED color
-def RGB_Setter(rgbled,r,g,b):
-    rgbled.color=(r/255,g/255,b/255)
-    time.sleep(0.2)
-    
-#Both RGBLED Color cycle
-def RGB_Test():
-    print('Testing RGB')
-    RGB_Setter(rgb1,255,0,0)
-    RGB_Setter(rgb2,255,0,0)
-    RGB_Setter(rgb1,0,255,0)
-    RGB_Setter(rgb2,0,255,0)
-    RGB_Setter(rgb1,0,0,255)
-    RGB_Setter(rgb2,0,0,255)
-    RGB_Setter(rgb1,0,0,0)
-    RGB_Setter(rgb2,0,0,0)
-    print('Testing Complete')
+rgb1 = RGBLED(red=reds1, green=Greens1, blue=Blues1)  # ground=9
+rgb2 = RGBLED(red=reds2, green=Greens2, blue=Blues2)
 
-#On/Off RGB
+
+# print(dir(RGBLED))
+# Resets RGB LED
+def Wipe_RGB():
+    print("Turning off RGB")
+    rgb1.color = (0, 0, 0)
+    rgb2.color = (0, 0, 0)
+    print("RGB off")
+
+
+# Set Choice RGB LED color
+def RGB_Setter(rgbled, r, g, b):
+    rgbled.color = (r / 255, g / 255, b / 255)
+    time.sleep(0.1)
+
+
+# Both RGBLED Color cycle
+def RGB_Test():
+    print("Testing RGB")
+    RGB_Setter(rgb1, 255, 0, 0)
+    RGB_Setter(rgb2, 255, 0, 0)
+    RGB_Setter(rgb1, 0, 255, 0)
+    RGB_Setter(rgb2, 0, 255, 0)
+    RGB_Setter(rgb1, 0, 0, 255)
+    RGB_Setter(rgb2, 0, 0, 255)
+    RGB_Setter(rgb1, 0, 0, 0)
+    RGB_Setter(rgb2, 0, 0, 0)
+    print("Testing Complete")
+
+
+# On/Off RGB
 def Booting_Lights():
-    print('Booting lights')
+    print("Booting lights")
     RGB_Test()
-    print('Booting Complete')
-    
-#ALL lights off
+    print("Booting Complete")
+
+
+# ALL lights off
 def Off_Lights():
     Wipe_RGB()
 
 
-#setting RGBLED with premade
-def Prepackaged_RGB(which_le,custum):
-    if which_le=="both" or which_le=='3':
-        RGB_Setter(rgb1,Prepackaged_Set[custum][0],Prepackaged_Set[custum][1],Prepackaged_Set[custum][2])
-        RGB_Setter(rgb2,Prepackaged_Set[custum][0],Prepackaged_Set[custum][1],Prepackaged_Set[custum][2])
-    elif which_le=="left" or which_le=='1':
-        RGB_Setter(rgb1,Prepackaged_Set[custum][0],Prepackaged_Set[custum][1],Prepackaged_Set[custum][2])
-    elif which_le=="right" or which_le=='2':
-        RGB_Setter(rgb2,Prepackaged_Set[custum][0],Prepackaged_Set[custum][1],Prepackaged_Set[custum][2])
+# setting RGBLED with premade
+def Prepackaged_RGB(which_le, custum):
+    if which_le == "both" or which_le == "3":
+        RGB_Setter(
+            rgb1,
+            Prepackaged_Set[custum][0],
+            Prepackaged_Set[custum][1],
+            Prepackaged_Set[custum][2],
+        )
+        RGB_Setter(
+            rgb2,
+            Prepackaged_Set[custum][0],
+            Prepackaged_Set[custum][1],
+            Prepackaged_Set[custum][2],
+        )
+    elif which_le == "left" or which_le == "1":
+        RGB_Setter(
+            rgb1,
+            Prepackaged_Set[custum][0],
+            Prepackaged_Set[custum][1],
+            Prepackaged_Set[custum][2],
+        )
+    elif which_le == "right" or which_le == "2":
+        RGB_Setter(
+            rgb2,
+            Prepackaged_Set[custum][0],
+            Prepackaged_Set[custum][1],
+            Prepackaged_Set[custum][2],
+        )
     print(custum)
-        
-#setting RGBLED to new Color
-def Custom_RGB(which_le,r,g,b):
-    if which_le=="both" or which_le=='3':
-        RGB_Setter(rgb1,r,g,b)
-        RGB_Setter(rgb2,r,g,b)
-    elif which_le=="left" or which_le=='1':
-        RGB_Setter(rgb1,r,g,b)
-    elif which_le=="right" or which_le=='2':
-        RGB_Setter(rgb2,r,g,b)
-        
-#Ask on/off LED
+
+
+# setting RGBLED to new Color
+def Custom_RGB(which_le, r, g, b):
+    if which_le == "both" or which_le == "3":
+        RGB_Setter(rgb1, r, g, b)
+        RGB_Setter(rgb2, r, g, b)
+    elif which_le == "left" or which_le == "1":
+        RGB_Setter(rgb1, r, g, b)
+    elif which_le == "right" or which_le == "2":
+        RGB_Setter(rgb2, r, g, b)
+
+
+# Ask on/off LED
 def RGB_LED_Retry(defunct):
-    print("oh no.\n",'Your choice of','"'+defunct+'"', 'Does not match with system process.\n')
-    question_retry=(input('Try Again? ')).lower()
-    if question_retry=='yes' or question_retry=='y':
+    print(
+        "oh no.\n",
+        "Your choice of",
+        '"' + defunct + '"',
+        "Does not match with system process.\n",
+    )
+    question_retry = (input("Try Again? ")).lower()
+    if question_retry in Yes:
         Custom_RGB_Led()
     else:
-        print('Alright RGB LEDs will cease.')
-        State=False
-        return(State)
+        print("Alright RGB LEDs will cease.")
+        State = False
+        return State
 
-#setting RGBLED colors
+
+# Custom RGB selector
+def Customs_Enforcer(RGB_VAR):
+    try:
+        Temporary_Editor = (
+            int(input("Pick a color for " + RGB_VAR + " [Integers Only 1-255]. "))
+        ) % 256
+        return Temporary_Editor
+    except:
+        RGB_LED_Retry(RGB_VAR)
+
+
+# setting RGBLED colors
 def Custom_RGB_Led():
-    which_led= (input("Which RGB LED?\n" "1. Left\n" "2. Right\n" "3. Both\n")).lower()
-    Custom_Selection_Criterian= (input("\n 1. Custom\n or\n 2. Prepackaged colors?\n")).lower()
+    which_led = (input("Which RGB LED?\n" "1. Left\n" "2. Right\n" "3. Both\n")).lower()
+    Custom_Selection_Criterian = (
+        input("\n 1. Custom\n or\n 2. Prepackaged colors?\n")
+    ).lower()
     time.sleep(0.2)
-    if which_led =="left" or  which_led=="right" or  which_led=="both" or which_led=="1" or which_led=="2" or which_led=='3':
-        if Custom_Selection_Criterian=="custom" or Custom_Selection_Criterian=="1":
-            temporary_custom=[]
-            Custom_Selection_CriterianR=int(input("Pick a color for R [Integers Only 1-255]. "))
-            Custom_Selection_CriterianG=int(input("Pick a color for G [Integers Only 1-255]. "))
-            Custom_Selection_CriterianB=int(input("Pick a color for B [Integers Only 1-255]. "))
-            temporary_custom.append(Custom_Selection_CriterianR)
-            temporary_custom.append(Custom_Selection_CriterianG)
-            temporary_custom.append(Custom_Selection_CriterianB)
-            Custom_Package=(input("Would you like to add to the Prepackaged selection? ")).lower()
-            if Custom_Package=='yes' or Custom_Package=='y':
-                Name_Package=(input('What would you like to name it? '))
-                print('Ok, the name will be', Name_Package+'.')
-                Prepackaged_Set.update({Name_Package.lower():temporary_custom})
+    if (
+        which_led == "left"
+        or which_led == "right"
+        or which_led == "both"
+        or which_led == "1"
+        or which_led == "2"
+        or which_led == "3"
+    ):
+        if Custom_Selection_Criterian == "custom" or Custom_Selection_Criterian == "1":
+            temporary_custom = []
+            temporary_custom.append(Customs_Enforcer("R"))
+            temporary_custom.append(Customs_Enforcer("G"))
+            temporary_custom.append(Customs_Enforcer("B"))
+            Custom_Package = (
+                input("Would you like to add to the Prepackaged selection? ")
+            ).lower()
+            if Custom_Package in Yes:
+                Name_Package = input("What would you like to name it? ")
+                print("Ok, the name will be", Name_Package + ".")
+                Prepackaged_Set.update({Name_Package.lower(): temporary_custom})
                 Packaged_Names.append(Name_Package)
-            Custom_RGB(which_led,temporary_custom[0],temporary_custom[1],temporary_custom[2])
-        elif Custom_Selection_Criterian=="prepackaged" or Custom_Selection_Criterian=="2":
-            print(Packaged_Names,'\n','You can select by name or number in list',1,'-',len(Packaged_Names))
-            Custom_Selection_Criterian=(input("Pick a color. ")).lower()
+            Custom_RGB(
+                which_led, temporary_custom[0], temporary_custom[1], temporary_custom[2]
+            )
+        elif (
+            Custom_Selection_Criterian == "prepackaged"
+            or Custom_Selection_Criterian == "2"
+        ):
+            print(
+                Annoying_Listing(Packaged_Names),
+                "\nYou can select by name or number in list",
+                1,
+                "-",
+                len(Packaged_Names),
+            )
+            Custom_Selection_Criterian = (input("Pick a color. ")).lower()
             try:
-                Custom_Selection_Criterian=(Packaged_Names[int(Custom_Selection_Criterian.strip())-1]).lower()
-                Prepackaged_RGB(which_led,Custom_Selection_Criterian)
+                Custom_Selection_Criterian = (
+                    Packaged_Names[int(Custom_Selection_Criterian.strip()) - 1]
+                ).lower()
+                Prepackaged_RGB(which_led, Custom_Selection_Criterian)
             except:
-                Prepackaged_RGB(which_led,Custom_Selection_Criterian)
+                Prepackaged_RGB(which_led, Custom_Selection_Criterian)
         else:
             RGB_LED_Retry(Custom_Selection_Criterian)
     else:
         RGB_LED_Retry(which_led)
-        
-#Light Booting        
+
+
+# Light Booting
 def Light_Works():
     Off_Lights()
     Booting_Lights()
-    print('Item booting complete')
-    
-#Reboot lights
+    print("Item booting complete")
+
+
+# Reboot lights
 def Restarting_Mechanism():
-    if (input('Would you like to reboot your lights? ')).lower()=='yes':
-        choice=(input('Which would you like to reboot?\n' '1. RGB LEDs\n ')).lower()
-        if choice=='rgb leds' or choice=='1':
+    if (input("Would you like to reboot your lights? ")).lower() in Yes:
+        choice = (input("Which would you like to reboot?\n" "1. RGB LEDs\n ")).lower()
+        if choice == "rgb leds" or choice == "1":
             Wipe_RGB()
             RGB_Test()
         else:
-            print('Try Again')
+            print("Try Again")
             Restarting_Mechanism()
     else:
-        print('Okay.')
+        print("Okay.")
 
-#simple Confirmation
+
+# simple Confirmation
 def Confirmation():
-    confirm=(input('Are you ready? ')).lower()
-    if confirm=='yes' or confirm=='y':
-        time.sleep(0.5)
+    confirm = (input("Are you ready? ")).lower()
+    if confirm in Yes:
+        time.sleep(0.1)
     else:
-        time.sleep(1)
+        time.sleep(0.5)
         Confirmation()
-        
+
 Confirmation()
 Light_Works()
 
-State=True
-while State==True:
+State = True
+while State == True:
     Restarting_Mechanism()
     Custom_RGB_Led()
-    time.sleep(3)
-    question=(input("Would you like to change something? ")).lower()
-    if question=="yes" or question=='y':
-        State=True
+    time.sleep(0.2)
+    question = (input("Would you like to change something? ")).lower()
+    if question in Yes:
+        State = True
     else:
-        question=(input("Would you like to end this? ")).lower()
-        if question=='yes'or question=='y':
-            State=False
+        question = (input("Would you like to end this? ")).lower()
+        if question in Yes:
+            State = False
+            question = input("Would you like to turn off LEDs? ")
+            if question in Yes:
+                Wipe_RGB()
+
         else:
-            print('Lights will continue to be editable.')
-
-
+            print("Lights will continue to be editable.")
